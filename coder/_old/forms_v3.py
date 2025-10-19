@@ -2,10 +2,6 @@ from django import forms
 from coder.models import Estudiante, Socio, Instructor, Clase
 
 
-# ==========================
-# FORMULARIO ESTUDIANTE
-# ==========================
-
 class EstudianteForm(forms.ModelForm):
     class Meta:
         model = Estudiante
@@ -39,25 +35,9 @@ class SocioForm(forms.ModelForm):
             "socio_apellido": forms.TextInput(attrs={'class': 'form-control'}),
             "socio_docnro": forms.TextInput(attrs={'class': 'form-control'}),
             "socio_fecnacimiento": forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            "socio_fecalta": forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            "socio_fecalta": forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'value': ''}),
             "socio_fecbaja": forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
         }
-
-    def clean_socio_docnro(self):
-        dni = self.cleaned_data.get("socio_docnro", "").strip()
-        if not dni.isdigit():
-            raise forms.ValidationError("El DNI debe contener solo números (sin letras ni símbolos).")
-        if len(dni) < 7 or len(dni) > 8:
-            raise forms.ValidationError("El DNI debe tener 7 u 8 dígitos.")
-        return dni
-
-    def clean_socio_nombre(self):
-        nombre = self.cleaned_data.get("socio_nombre", "")
-        return nombre.strip().upper()
-
-    def clean_socio_apellido(self):
-        apellido = self.cleaned_data.get("socio_apellido", "")
-        return apellido.strip().upper()
 
 
 # ==========================
@@ -82,25 +62,13 @@ class InstructorForm(forms.ModelForm):
             "inst_turno": forms.Select(attrs={'class': 'form-select'}),
         }
 
-    # ✅ Normalización a mayúsculas y sin espacios
-    def clean_inst_nombre(self):
-        nombre = self.cleaned_data.get("inst_nombre", "")
-        return nombre.strip().upper()
-
-    def clean_inst_apellido(self):
-        apellido = self.cleaned_data.get("inst_apellido", "")
-        return apellido.strip().upper()
-
-    def clean_inst_especialidad(self):
-        especialidad = self.cleaned_data.get("inst_especialidad", "")
-        return especialidad.strip().upper()
-
 
 # ==========================
 # FORMULARIO CLASE
 # ==========================
 
 class ClaseForm(forms.ModelForm):
+
     HORARIOS = [
         ("8:00-9:00", "8:00-9:00"),
         ("9:00-10:00", "9:00-10:00"),
@@ -129,12 +97,3 @@ class ClaseForm(forms.ModelForm):
             "clase_nombre": forms.TextInput(attrs={'class': 'form-control'}),
             "clase_tema": forms.TextInput(attrs={'class': 'form-control'}),
         }
-
-    # ✅ Normalización automática
-    def clean_clase_nombre(self):
-        nombre = self.cleaned_data.get("clase_nombre", "")
-        return nombre.strip().upper()
-
-    def clean_clase_tema(self):
-        tema = self.cleaned_data.get("clase_tema", "")
-        return tema.strip().upper()

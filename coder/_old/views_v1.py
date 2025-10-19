@@ -1,12 +1,7 @@
 from django.shortcuts import render, redirect
-from django.db.models import Q
-from coder.forms import EstudianteForm, SocioForm, InstructorForm, ClaseForm
+from coder.forms import *
 from coder.models import Estudiante, Socio, Instructor, Clase
 
-
-# ==========================
-# PÁGINAS PRINCIPALES
-# ==========================
 
 def index(request):
     return render(request, "coder/index.html")
@@ -17,7 +12,7 @@ def test(request):
 
 
 # ==========================
-# ESTUDIANTES
+# Vistas para Estudiantes
 # ==========================
 
 def crear_estudiante(request):
@@ -28,26 +23,23 @@ def crear_estudiante(request):
             return redirect("estudiante_form")
     else:
         form = EstudianteForm()
+    
     return render(request, "coder/estudiante_form.html", {'form': form})
 
 
 def lista_estudiantes(request):
     query = request.GET.get('q', '')
-    if query:
-        estudiantes = Estudiante.objects.filter(
-            Q(nombre__icontains=query) |
-            Q(apellido__icontains=query) |
-            Q(email__icontains=query) |
-            Q(nro_legajo__icontains=query)
-        ).order_by("-fecha_de_creacion")
+    if len(query) > 0:
+        estudiante = Estudiante.objects.filter(
+            nombre__icontains=query).order_by("-fecha_de_creacion")
     else:
-        estudiantes = Estudiante.objects.all().order_by("-fecha_de_creacion")
-
-    return render(request, "coder/estudiante_list.html", {"estudiantes": estudiantes, "query": query})
+        estudiante = Estudiante.objects.all().order_by("-fecha_de_creacion")
+    
+    return render(request, "coder/estudiante_list.html", {"estudiantes": estudiante, "query": query})
 
 
 # ==========================
-# SOCIOS
+# Vistas para Socios
 # ==========================
 
 def crear_socio(request):
@@ -55,28 +47,26 @@ def crear_socio(request):
         form = SocioForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("socio_list")  # ✅ ahora vuelve al listado
+            return redirect("socio_form")
     else:
         form = SocioForm()
+    
     return render(request, "coder/socio_form.html", {'form': form})
 
 
 def lista_socios(request):
     query = request.GET.get('q', '')
-    if query:
+    if len(query) > 0:
         socios = Socio.objects.filter(
-            Q(socio_nombre__icontains=query) |
-            Q(socio_apellido__icontains=query) |
-            Q(socio_docnro__icontains=query)
-        ).order_by("-socio_id")
+            socio_nombre__icontains=query).order_by("-socio_fecalta")
     else:
-        socios = Socio.objects.all().order_by("-socio_id")
-
+        socios = Socio.objects.all().order_by("-socio_fecalta")
+    
     return render(request, "coder/socio_list.html", {"socios": socios, "query": query})
 
 
 # ==========================
-# INSTRUCTORES
+# Vistas para Instructores
 # ==========================
 
 def crear_instructor(request):
@@ -84,28 +74,26 @@ def crear_instructor(request):
         form = InstructorForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("instructor_list")  # ✅ ahora vuelve al listado
+            return redirect("instructor_form")
     else:
         form = InstructorForm()
+    
     return render(request, "coder/instructor_form.html", {'form': form})
 
 
 def lista_instructores(request):
     query = request.GET.get('q', '')
-    if query:
+    if len(query) > 0:
         instructores = Instructor.objects.filter(
-            Q(inst_nombre__icontains=query) |
-            Q(inst_apellido__icontains=query) |
-            Q(inst_especialidad__icontains=query)
-        ).order_by("-inst_id")
+            inst_nombre__icontains=query).order_by("inst_apellido")
     else:
-        instructores = Instructor.objects.all().order_by("-inst_id")
-
+        instructores = Instructor.objects.all().order_by("inst_apellido")
+    
     return render(request, "coder/instructor_list.html", {"instructores": instructores, "query": query})
 
 
 # ==========================
-# CLASES
+# Vistas para Clases
 # ==========================
 
 def crear_clase(request):
@@ -113,20 +101,19 @@ def crear_clase(request):
         form = ClaseForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("clase_list")  # ✅ vuelve al listado
+            return redirect("clase_form")
     else:
         form = ClaseForm()
+    
     return render(request, "coder/clase_form.html", {'form': form})
 
 
 def lista_clases(request):
     query = request.GET.get('q', '')
-    if query:
+    if len(query) > 0:
         clases = Clase.objects.filter(
-            Q(clase_nombre__icontains=query) |
-            Q(clase_tema__icontains=query)
-        ).order_by("-clase_id")
+            clase_nombre__icontains=query).order_by("clase_nombre")
     else:
-        clases = Clase.objects.all().order_by("-clase_id")
-
+        clases = Clase.objects.all().order_by("clase_nombre")
+    
     return render(request, "coder/clase_list.html", {"clases": clases, "query": query})

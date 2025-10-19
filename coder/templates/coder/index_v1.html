@@ -84,6 +84,18 @@
       font-size: 0.9rem;
       margin-top: auto;
     }
+
+    @media (max-width: 1024px) {
+      .hero {
+        padding: 50px 15px;
+      }
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 
@@ -92,15 +104,15 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="{% url 'index' %}">Gimnasio Coder</a>
+      <a class="navbar-brand fw-bold" href="#">Gimnasio Coder</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="{% url 'instructor_list' %}">Instructores</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'socio_list' %}">Socios</a></li>
+          <li class="nav-item"><a class="nav-link" href="/profesores">Profesores</a></li>
+          <li class="nav-item"><a class="nav-link" href="/socios">Socios</a></li>
         </ul>
       </div>
     </div>
@@ -111,7 +123,7 @@
     <section class="hero">
       <h1>Bienvenido a Gimnasio Coder</h1>
       <p>Donde la tecnología y el entrenamiento se fusionan para ayudarte a alcanzar tu mejor versión.</p>
-      <a href="{% url 'clase_list' %}" class="btn btn-primary px-4 py-2">Conocé nuestras clases</a>
+      <a href="/clases" class="btn btn-primary px-4 py-2">Conocé nuestras clases</a>
     </section>
 
     <!-- Intro corta -->

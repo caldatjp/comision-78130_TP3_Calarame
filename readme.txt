@@ -1,4 +1,5 @@
-TuPrimeraPagina+Apellido
+comision-78130_TP3_Calarame --> https://github.com/caldatjp/comision-78130_TP3_Calarame.git
+
 -------------------- crear repositorio Git
 En GitHub, crear repositorio, agregar nombre y descripcion, luego readme on, publico, ignore file = Phyton
 https://github.com/caldatjp/TuPrimeraPagina_Calarame.git
@@ -13,6 +14,7 @@ Importante: si tira error, activar la directiva de seguridad desde powershell co
 	Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 activar entorno: entorno_virtual/Scripts/activate
 en el file gitignore, agregar al final entorno_virtual
+pip freeze > requirements.txt
 -------------------- instalacion django
 instalar django --> pip install django
 para verificar instalacion y version ejecutar : django-admin --version
@@ -37,12 +39,26 @@ ejecutar
 python manage.py makemigrations
 python manage.py migrate
 
---------------------- levantar estructuras de base de datos 
+-----------*************** ESTRUCTURA 
 
-
-http://127.0.0.1:8000/estudiantes/
-al final
-pip freeze > requirements.txt
-
-
-	
+SOCIOS
+	socio_id
+	socio_nombre
+	socio_apellido
+	socio_docnro
+	socio_fecnacimiento
+	socio_fecalta
+	socio_fecbaja
+INSTRUCTORES
+	inst_id
+	inst_nombre
+	inst_apellido
+	inst_sexo
+	inst_especialidad
+	inst_turno
+CLASES
+	clase_id
+	clase_nombre
+	clase_especialidad
+	clase_horario
+	clase_cupo
